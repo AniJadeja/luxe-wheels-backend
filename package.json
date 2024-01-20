@@ -1,0 +1,29 @@
+{
+  "name": "luxewheels-backend",
+  "version": "1.0.0",
+  "description": "backend of the luxe wheels app",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AniJadeja/luxe-wheels-backend.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mongodb"
+  ],
+  "author": "Aniruddhsinh Jadeja",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/AniJadeja/luxe-wheels-backend/issues"
+  },
+  "homepage": "https://github.com/AniJadeja/luxe-wheels-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  }
+}
