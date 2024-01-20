@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+
 const {UserModel} = require('../../models/UserModel.js');
 
 const signupRouter = router.post('/', (req, res) => {
@@ -9,3 +10,4 @@ const signupRouter = router.post('/', (req, res) => {
  });
 
 module.exports = signupRouter;
+

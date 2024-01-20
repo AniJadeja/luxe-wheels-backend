@@ -1,6 +1,6 @@
 {
   "name": "luxewheels-backend",
-  "version": "1.0.0",
+  "version": "1.0.0.1",
   "description": "backend of the luxe wheels app",
   "main": "server.js",
   "scripts": {
