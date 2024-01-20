@@ -1,21 +1,24 @@
 require("dotenv").config();
+// Routers
+const { pingRouter, signupRouter } = require('./server/routes/index.js');
+const {pingEndPoint, signUpEndPoint} = require('./server/config/endpoints.js');
 
 const express = require("express");
-const cors = require("cors"); // Import the cors middleware
+const cors = require("cors"); 
 
 const app = express();
-const port = process.env.PORT; // Use the specified port or default to 3000
+const port = process.env.PORT; 
 
 app.use(express.json());
 
-// Use cors middleware to enable CORS for all routes
 app.use(cors());
 
-
-const pingRoute = require("./server/routes/ping.js");
-app.use("/ping", pingRoute);
-
-
+app.use(pingEndPoint, pingRouter);
+app.use(signUpEndPoint, signupRouter);
+app.use((req, res, next) => {
+  console.log(`Request received for endpoint: ${req.originalUrl}`);
+  next();
+});
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
