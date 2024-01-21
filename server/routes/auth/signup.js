@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {signUpUser} = require('../../controllers/index.js');
-
-const {UserModel} = require('../../models/UserModel.js');
+const {verifySignUpCreds} = require('../../middlewares/index.js');
 
 const signupRouter = router.post('/',verifySignUpCreds , (req, res) => {
 
@@ -11,4 +10,3 @@ const signupRouter = router.post('/',verifySignUpCreds , (req, res) => {
  });
 
 module.exports = signupRouter;
-
