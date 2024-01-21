@@ -5,7 +5,6 @@ class UserModel {
     this.email = data.email;
     this.password = data.password;
   }
-
   // Static method to validate user data
   static validate(data) {
     let errors = {};
@@ -97,3 +96,4 @@ function isStrongPassword(password) {
 }
 
 module.exports = { UserModel };
+
