@@ -1,4 +1,4 @@
-const { signUpUser } = require('./authController.js');
+const { signUpUser } = require('./auth');
 
 
 

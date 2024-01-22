@@ -1,4 +1,4 @@
-const { isUserEmailPresent, registerUser } = require("../database/database.js");
+const { isUserEmailPresent, registerUser } = require("../../database/database");
 
 
 const signUpUser = (user, res) => {
