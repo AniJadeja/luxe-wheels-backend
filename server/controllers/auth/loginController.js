@@ -1,6 +1,6 @@
 const { isUserEmailPresent, signInUser } = require("../../database/database");
 
-const loginUser = (user, res) => {
+const loginuser = (user, res) => {
   // check if isUserEmailPresent(email)
   isUserEmailPresent(user.email)
     ? // if true, return { error: 'Email already exists' }
@@ -12,5 +12,5 @@ const loginUser = (user, res) => {
 };
 
 module.exports = {
-  loginUser,
+  loginuser,
 };

@@ -1,4 +1,5 @@
 const { UserModel } = require("../models/UserModel");
+const  LoginUserModel  = require("../models/loginUserModel");
 
 const verifySignUpCreds = (req, res, next) => {
   const errors = UserModel.validate(req.body);
@@ -9,4 +10,13 @@ const verifySignUpCreds = (req, res, next) => {
   next(); 
 };
 
-module.exports =  verifySignUpCreds ;
+const verifyLoginCreds = (req, res, next) => {
+  const errors = LoginUserModel.validate(req.body);
+  errors 
+  ?
+  res.status(400).json({ message: "Login Error", errors : errors })
+  :
+  next(); 
+}
+
+module.exports = { verifySignUpCreds, verifyLoginCreds} ;
