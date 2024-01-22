@@ -1,7 +1,7 @@
 const pingRouter = require('./ping.js');
-const signupRouter = require('./auth/signup.js');
+const authRouter = require('./auth/index.js');
 
 module.exports = {
-    pingRouter,
-    signupRouter
+  pingRouter,
+  authRouter
 };
