@@ -1,5 +1,3 @@
-const signupRouter = require('./signup.js');
+const signupRouter = require('./signup');
 
-module.exports = {
-    signupRouter
-};
+module.exports = signupRouter
