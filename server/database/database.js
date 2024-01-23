@@ -1,14 +1,21 @@
-const isUserEmailPresent = (email) => {
+const User = require('./models/User');
+
+
+const isUserEmailPresent = async (email) => {
   // get user from email
+  const duplicate = await User.findOne({ email: email }).exec();
+  if (!duplicate) return false //Conflict 
 
   // if user is present return true
   // else return false
   return true;
 };
 
-const registerUser = (user) => {
+const registerUser = async (user) => {
   // insert user into database
 
+  const newUser = await User.create(user);
+  if (!newUser) return false; //Bad Request
   // return true if user is inserted
   // else return false
   return true;
