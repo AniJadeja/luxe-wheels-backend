@@ -28,7 +28,6 @@ app.use((req, res, next) => {
 
 
 mongoose.connection.once('connected', () => {
-  console.log('MongoDB connection ready!');
   app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
   });
   
