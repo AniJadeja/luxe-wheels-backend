@@ -1,7 +1,7 @@
 const { isUserEmailPresent, signInUser } = require("../../database/database");
 
 
-const loginuser = async (user, res) => {
+const loginUser = async (user, res) => {
   // check if isUserEmailPresent(email)
  
   await isUserEmailPresent(user.email)
