@@ -56,7 +56,13 @@ const signInUser = async (user) => {
 
 const initiateSession = async (uid, expiration) => {
   // insert session into database
-
+  console.log("expiration", expiration);
+  let session = await Session.findOne({ uid: uid }).exec();
+  if (session)
+  {
+    session = await Session.updateOne({ uid: uid }, { expiration: expiration });
+    if (!session) return false;
+    return true;} 
   const newSession = await Session.create({ uid: uid, expiration: expiration });
   if (!newSession) return false; //Bad Request
   // return true if session is inserted
