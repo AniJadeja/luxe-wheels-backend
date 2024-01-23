@@ -1,10 +1,11 @@
 const { isUserEmailPresent, signInUser } = require("../../database/database");
 
-const loginuser = (user, res) => {
+const loginuser = async (user, res) => {
   // check if isUserEmailPresent(email)
-  isUserEmailPresent(user.email)
+ 
+  await isUserEmailPresent(user.email)
     ? // if true, return { error: 'Email already exists' }
-      signInUser(user)
+    await signInUser(user)
       ? // returns true, return cookie
         res.status(200).send({ success: "User Logged In" })
       : res.status(403).send({ error: "Could not be logged in" })
