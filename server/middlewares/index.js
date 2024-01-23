@@ -1,5 +1,6 @@
-const verifySignUpCreds = require('./authMiddleware.js');
+const  verifyAuthCreds = require('./authMiddleware.js');
+
 
 module.exports = {
-  verifySignUpCreds
+  verifyAuthCreds
 }
