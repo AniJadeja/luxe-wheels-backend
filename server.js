@@ -6,9 +6,12 @@ const {pingEndPoint, signUpEndPoint, loginEndPoint} = require('./server/config/e
 
 const express = require("express");
 const cors = require("cors"); 
+const mongoose = require("mongoose");
+const dbConn = require("./server/database/dbConnection.js");
 
+dbConn();
 const app = express();
-const port = process.env.PORT; 
+const PORT = process.env.PORT; 
 
 app.use(express.json());
 
@@ -21,6 +24,14 @@ app.use((req, res, next) => {
   console.log(`Request received for endpoint: ${req.originalUrl}`);
   next();
 });
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+
+
+
+mongoose.connection.once('connected', () => {
+  console.log('MongoDB connection ready!');
+  app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+  });
+  
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
