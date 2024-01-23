@@ -56,7 +56,6 @@ const signInUser = async (user) => {
 
 const initiateSession = async (uid, expiration) => {
   // insert session into database
-  console.log("expiration", expiration);
   let session = await Session.findOne({ uid: uid }).exec();
   if (session)
   {
