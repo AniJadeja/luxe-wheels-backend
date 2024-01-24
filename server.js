@@ -8,10 +8,10 @@ const express = require("express");
 const cors = require("cors"); 
 const mongoose = require("mongoose");
 const dbConn = require("./server/database/dbConnection.js");
+
 const cookieParser = require('cookie-parser');
 
 dbConn();
-
 const app = express();
 const PORT = process.env.PORT; 
 

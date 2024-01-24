@@ -1,5 +1,6 @@
 const User = require("./models/User");
 const Session = require("./models/Session");
+const { get } = require("http");
 
 const isUserEmailPresent = async (email) => {
   // get user from email
@@ -56,7 +57,7 @@ const signInUser = async (user) => {
 
 const initiateSession = async (uid, expiration) => {
   // insert session into database
-  let session = await Session.findOne({ uid: uid }).exec();
+  let session = await verifySession(uid);
   if (session)
   {
     session = await Session.updateOne({ uid: uid }, { expiration: expiration });
@@ -69,12 +70,14 @@ const initiateSession = async (uid, expiration) => {
   return true;
 };
 
-const verifySession = (uid) => {
-  // check if session is present in database
+const verifySession = async (uid) => {
+  const session = await Session.findOne({ uid: uid }).exec();
+  return session ? session : false;
 };
 
-const removeSession = (uid) => {
-  // delete session from database
+const removeSession = async (uid) => {
+  const session = await Session.deleteOne({ uid: uid }).exec();
+  return session.deletedCount == 1 ? true : false;
 };
 
 module.exports = {
