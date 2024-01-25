@@ -12,7 +12,9 @@ const loginUser = async (user, res) => {
       res.status(403).send({ error: "Could not be logged in" });
     }
   }
-
+  else {
+    res.status(403).send({ error: "User not found" });
+  }
 };
 
 
