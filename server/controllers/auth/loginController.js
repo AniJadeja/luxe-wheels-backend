@@ -1,5 +1,6 @@
 const { isUserEmailPresent, signInUser } = require("../../database/database");
 
+
 const loginUser = async (user, res) => {
   // check if isUserEmailPresent(email)
   if (await isUserEmailPresent(user.email)) {
@@ -14,7 +15,6 @@ const loginUser = async (user, res) => {
   else {
     res.status(403).send({ error: "User not found" });
   }
-
 };
 
 
