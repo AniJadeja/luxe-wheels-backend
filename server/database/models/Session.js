@@ -16,7 +16,12 @@ const sessionSchema = new Schema({
         type : String,
         required : true,
         trim : true,
-    }
+    },
+    fingerprintToken : {
+        type : String,
+        required : true,
+        trim : true,
+    },
 });
 
 
