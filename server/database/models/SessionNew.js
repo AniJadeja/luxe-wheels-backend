@@ -14,23 +14,33 @@ const sessionSchema = new Schema({
   },
   sessions: [
     {
-      sessionToken: {
-        type: String,
-        required: true,
-        trim: true,
-      },
       expiration: {
         type: Date,
         required: true,
         trim: true,
       },
+      browserName: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      browserVersion: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      osName: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      screenRes: {
+        type: String,
+        required: true,
+        trim: true,
+      },
     },
   ],
-  expiration: {
-    type: Date,
-    required: true,
-    trim: true,
-  },
 });
 
-module.exports = mongoose.model("Session", sessionSchema);
+module.exports = mongoose.model("NewSession", sessionSchema);
