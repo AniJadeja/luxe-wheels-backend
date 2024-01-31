@@ -1,6 +1,5 @@
 const User = require("./models/User");
 const Session = require("./models/Session");
-const { get } = require("http");
 
 const isUserEmailPresent = async (email) => {
   // get user from email
@@ -84,4 +83,7 @@ module.exports = {
   isUserEmailPresent,
   registerUser,
   signInUser,
+  initiateSession,
+  verifySession,
+  removeSession,
 };
