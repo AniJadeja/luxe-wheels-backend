@@ -1,5 +1,5 @@
 const { signUpUser } = require('./signUpController.js');
-const { loginUser } = require('./loginController.js');
+const { loginUser } = require('./loginControllerNew.js');
 
 module.exports = {
   signUpUser,
