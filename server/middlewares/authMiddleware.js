@@ -1,4 +1,4 @@
-const { UserModel } = require("../models/UserModel");
+const { UserModel } = require("../models/userModel");
 const  LoginUserModel  = require("../models/loginUserModel");
 
 const verifySignUpCreds = (req, res, next) => {
