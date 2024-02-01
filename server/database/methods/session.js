@@ -1,13 +1,6 @@
 const NewSession = require("../models/SessionNew");
 
 const initiateSession = async (userData, sessionData, expiration) => {
-  // insert session into database
-  // let session = await verifySession(uid);
-  // if (session)
-  // {
-  //   session = await Session.updateOne({ uid: uid }, { expiration: expiration });
-  //   if (!session) return false;
-  //   return true;}
   let newSession;
   try {
     newSession = await NewSession.create({
@@ -25,20 +18,33 @@ const initiateSession = async (userData, sessionData, expiration) => {
     });
   } catch (error) {
     console.log("initiateSession => error creating new session : ", error);
+    return null;
   }
-  
-  if (!newSession) return false; //Bad Request
-  // return true if session is inserted
-  // else return false
-  console.log("initiateSession => new session created");
-  return true;
+  console.log(
+    "initiateSession => new session created : ",
+    newSession.sessions[0]._id
+  );
+  return newSession.sessions[0]._id;
 };
 
-const retrieveSession = async (uid) => {
-  // retrieve session from database
+const retrieveSession = async (sessionToken) => {
+  try {
+    if (!sessionToken) {
+      return null;
+    }
+    const session = await NewSession.findOne({ "sessions._id": sessionToken });
+    return session;
+  } catch (error) {
+    console.log("retrieveSession => error retrieving session : ", error);
+    return null;
+  }
 };
+
+
+
+
 
 module.exports = {
   initiateSession,
-  retrieveSession,
+  retrieveSession
 };

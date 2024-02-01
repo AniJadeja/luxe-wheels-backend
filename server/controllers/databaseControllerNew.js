@@ -10,14 +10,12 @@ const verifyUserEmail = async (email) => {
   // get user from email
 
   const user = await getUserEmail(email);
-  console.log("verifyUserEmail => user : ", user);
   return user ? user : false;
 }
 
 
 const signInUser = async (user, systemData) => {
   // get user from email
-  console.log("signInUser => user : ", user);
   const dbUser = await verifyUserEmail(user.email);
   // if user is present
   // check if password matches
@@ -25,10 +23,6 @@ const signInUser = async (user, systemData) => {
 
   if (dbUser.password === user.password) {
     
-    const sessionData = {
-      sessionToken: generateToken(),
-      ...systemData
-    };
     const userData = {
       uid: dbUser._id,
       email: dbUser.email,
@@ -38,15 +32,17 @@ const signInUser = async (user, systemData) => {
       new Date().getTime() 
       + 259200000)
       .toUTCString();
-    const isSessionCreated = await initiateSession(userData, sessionData, expirationDate);
-    if (!isSessionCreated) return false;
+    const sessionToken = await initiateSession(userData, systemData, expirationDate);
+    console.log("signInUser => session created : ", sessionToken);
+    if (!sessionToken) return false;
+    
     // Now expirationDate is a Date object representing the expiration time
-    return true;
     return {
       cookie: {
         uid: dbUser._id,
         expiration: expirationDate,
       },
+      sessionToken: sessionToken,
     };
   }
   else
