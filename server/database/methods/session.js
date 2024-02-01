@@ -42,9 +42,38 @@ const retrieveSession = async (sessionToken) => {
 
 
 
+const retrieveAllSessions = async (uid) => {
+  // retrieve all sessions from database
+  try {
+    const sessions = await NewSession.find({ uid: uid });
+    return sessions;
+  } catch (error) {
+    console.log("retrieveAllSessions => error retrieving sessions : ", error);
+    return null;
+  }
+};
+
+const deleteSession = async (sessionToken) => {
+  try {
+    const session = await NewSession.findOne({ "sessions._id": sessionToken });
+    if (!session) {
+      return null;
+    }
+
+    const deletedSession = await NewSession.deleteOne(
+      { "sessions._id": sessionToken },
+    );
+    return deletedSession.deletedCount > 0 ? true : false;
+  } catch (error) {
+    console.log("deleteSession => error deleting session : ", error);
+    return null;
+  }
+};
 
 
 module.exports = {
   initiateSession,
-  retrieveSession
+  retrieveSession,
+  retrieveAllSessions,
+  deleteSession,
 };
