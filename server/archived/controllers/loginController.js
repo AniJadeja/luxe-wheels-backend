@@ -1,4 +1,4 @@
-const { isUserEmailPresent, signInUser } = require("../../database/database");
+const { isUserEmailPresent, signInUser } = require("../database/database");
 
 
 const loginUser = async (user, res) => {

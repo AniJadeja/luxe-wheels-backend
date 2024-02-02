@@ -1,4 +1,4 @@
-const { isUserEmailPresent, registerUser } = require("../../database/database");
+const { isUserEmailPresent, registerUser } = require("../../archived/database/database");
 
 
 const signUpUser = async (user, res) => {
