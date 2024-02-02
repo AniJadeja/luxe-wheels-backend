@@ -1,7 +1,7 @@
-const { signUpUser } = require('./auth');
-const { loginUser } = require('./auth');
-
-
+const { 
+  loginUser,
+  signUpUser 
+} = require('./auth');
 
 
 module.exports = {
