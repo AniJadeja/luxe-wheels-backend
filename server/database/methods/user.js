@@ -1,21 +1,26 @@
 const User = require("../models/User");
 const getUserFromEmail = async (email) => {
   // get user from email
-  const user = await User.findOne({ email: email }).exec();
-  if (!user) return false;
-  return user;
+  try {
+    const user = await User.findOne({ email: email }).exec();
+    if (!user) return false;
+    return user;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
 };
 
 const createUser = async (user) => {
-  // insert user into database
-
-  const newUser = await User.create(user);
-  if (!newUser) return false; //Bad Request
-  // return true if user is inserted
-  // else return false
-  return true;
+  try {
+    const newUser = await User.create(user);
+    if (!newUser) return false; //Bad Request
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
 };
-
 
 module.exports = {
   getUserFromEmail,
