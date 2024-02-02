@@ -1,5 +1,5 @@
-const User = require("./models/User");
-const Session = require("./models/Session");
+const User = require("../../database/models/User");
+const Session = require("../../database/models/Session");
 const { get } = require("http");
 
 const isUserEmailPresent = async (email) => {

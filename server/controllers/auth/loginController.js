@@ -1,5 +1,5 @@
 
-const { signInUser, getSessionOfCurrentBrowser  } = require("../databaseControllerNew");
+const { signInUser, getSessionOfCurrentBrowser  } = require("../databaseController");
 
 
 const loginUser = async (req, res) => {
