@@ -3,7 +3,8 @@ const {
   createUser,
   initiateSession,
   retrieveSession,
-  retrieveAllSessions
+  retrieveAllSessions,
+  updateSession
 } = require("./methods");
 
 module.exports = {
@@ -11,5 +12,6 @@ module.exports = {
   createUser,
   initiateSession,
   retrieveSession,
-  retrieveAllSessions
+  retrieveAllSessions,
+  updateSession
 };
