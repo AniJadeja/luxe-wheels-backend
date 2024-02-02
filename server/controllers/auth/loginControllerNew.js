@@ -1,11 +1,27 @@
-const { verifyUserEmail, signInUser } = require("../databaseControllerNew");
+
+const { signInUser, getSessionOfCurrentBrowser  } = require("../databaseControllerNew");
 
 
-const loginUser = async (user, res) => {
-  console.log("loginControllerNew => loginUser : called")
+const loginUser = async (req, res) => {
   // check if isUserEmailPresent(email)
-  const userData = user.user;
-  const systemData = user.data;  
+  const userData = req.user;
+  const systemData = req.data;
+
+  // const sessionFetchData = {
+  //   email : userData.email,
+  //   browserName : systemData.browserName,
+  //   browserVersion : systemData.browserVersion,
+  //   osName : systemData.osName,
+  //   screenRes : systemData.screenRes,
+  // }
+
+  // const currentSession = await getSessionOfCurrentBrowser(
+  //   sessionFetchData
+  // );
+  // if (currentSession)
+  // {
+  //   console.log("loginControllerNew => loginUser : currentSession : ", currentSession);
+  // }
 
   if (await  (userData.email)) {
     let isUserSignedIn = await signInUser(userData, systemData);

@@ -1,13 +1,17 @@
 const {
-  getUserEmail,
+  getUserFromEmail,
   createUser,
   initiateSession,
   retrieveSession,
+  retrieveAllSessions,
+  updateSession
 } = require("./methods");
 
 module.exports = {
-  getUserEmail,
+  getUserFromEmail,
   createUser,
   initiateSession,
   retrieveSession,
+  retrieveAllSessions,
+  updateSession
 };
