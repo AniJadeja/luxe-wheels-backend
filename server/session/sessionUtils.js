@@ -1,4 +1,4 @@
-const { initiateSession, verifySession, removeSession } = require('../database/database');
+const { initiateSession, verifySession, removeSession } = require('./sessionDBUtils');
 
 
 function updateSession(uid, expiration) {

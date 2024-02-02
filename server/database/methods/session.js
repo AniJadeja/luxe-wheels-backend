@@ -58,8 +58,6 @@ const updateSession = async (sessionToken) => {
   }
 };
 
-updateSession("65bc222f5de5174138882840");
-
 const retrieveSession = async (sessionToken) => {
   try {
     if (!sessionToken) {
@@ -104,7 +102,6 @@ const deleteSession = async (sessionToken) => {
     return null;
   }
 };
-
 module.exports = {
   initiateSession,
   retrieveSession,

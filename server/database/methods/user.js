@@ -1,5 +1,4 @@
 const User = require("../models/User");
-
 const getUserFromEmail = async (email) => {
   // get user from email
   const user = await User.findOne({ email: email }).exec();

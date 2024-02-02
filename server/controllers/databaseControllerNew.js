@@ -42,6 +42,7 @@ const verifyUserEmail = async (email) => {
   return user ? user : false;
 };
 
+
 const signInUser = async (user, systemData) => {
   // get user from email
   const dbUser = await verifyUserEmail(user.email);
@@ -65,7 +66,6 @@ const signInUser = async (user, systemData) => {
     );
     console.log("signInUser => session created : ", sessionToken);
     if (!sessionToken) return false;
-
     // Now expirationDate is a Date object representing the expiration time
     return {
       cookie: {

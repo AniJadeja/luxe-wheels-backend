@@ -1,3 +1,4 @@
+
 const { verifyUserEmail, signInUser, getSessionOfCurrentBrowser, getUserUid } = require("../databaseControllerNew");
 
 
