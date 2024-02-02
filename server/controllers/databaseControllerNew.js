@@ -1,17 +1,46 @@
-const { getUserEmail, initiateSession } = require('../database');
-const { generateToken } = require('../utils/Token');
+const {
+  getUserFromEmail,
+  initiateSession,
+  retrieveSession,
+  retrieveAllSessions,
+} = require("../database");
 
-
-const verifySession = async (uid) => {
+const verifySession = async (sessionToken) => {
+  const session = await retrieveSession(sessionToken);
+  return session ? true : false;
   // verifies if session exists
+};
+
+
+const getUserUid = async (email) =>
+{
+  const user = await getUserFromEmail(email);
+  return user._id;
 }
+
+
+const getSessionOfCurrentBrowser = async (data) => {
+  if (!data) return null;
+  const sessions = await retrieveAllSessions(data.uid);
+  let currentSession = null;
+  sessions.forEach((session) => {
+    if (
+      session.browserName === data.browserName &&
+      session.browserVersion === data.browserVersion &&
+      session.osName === data.osName &&
+      session.screenRes === data.screenRes
+    )
+      currentSession = session._id;
+  });
+  return currentSession;
+};
 
 const verifyUserEmail = async (email) => {
   // get user from email
 
-  const user = await getUserEmail(email);
+  const user = await getUserFromEmail(email);
   return user ? user : false;
-}
+};
 
 
 const signInUser = async (user, systemData) => {
@@ -22,20 +51,21 @@ const signInUser = async (user, systemData) => {
   if (!dbUser) return false;
 
   if (dbUser.password === user.password) {
-    
     const userData = {
       uid: dbUser._id,
       email: dbUser.email,
     };
     // Convert the timestamp to a Date object
     const expirationDate = new Date(
-      new Date().getTime() 
-      + 259200000)
-      .toUTCString();
-    const sessionToken = await initiateSession(userData, systemData, expirationDate);
+      new Date().getTime() + 259200000
+    ).toUTCString();
+    const sessionToken = await initiateSession(
+      userData,
+      systemData,
+      expirationDate
+    );
     console.log("signInUser => session created : ", sessionToken);
     if (!sessionToken) return false;
-    
     // Now expirationDate is a Date object representing the expiration time
     return {
       cookie: {
@@ -44,17 +74,22 @@ const signInUser = async (user, systemData) => {
       },
       sessionToken: sessionToken,
     };
-  }
-  else
-  {
+  } else {
     console.log("signInUser => password does not match");
-    console.log("signInUser => user.password : ", user.password + "\ndbUser.password : ", dbUser.password);
+    console.log(
+      "signInUser => user.password : ",
+      user.password + "\ndbUser.password : ",
+      dbUser.password
+    );
     return false;
   }
-}
+};
 
 module.exports = {
   verifySession,
   verifyUserEmail,
   signInUser,
+  getSessionOfCurrentBrowser,
+  getUserUid
 };
+

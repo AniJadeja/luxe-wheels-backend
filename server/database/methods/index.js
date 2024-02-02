@@ -1,9 +1,10 @@
-const { getUserEmail, createUser } = require("./user");
-const { initiateSession, retrieveSession} = require("./session");
+const { getUserFromEmail, createUser } = require("./user");
+const { initiateSession, retrieveSession, retrieveAllSessions} = require("./session");
 
 module.exports = {
-  getUserEmail,
+  getUserFromEmail,
   createUser,
   initiateSession,
   retrieveSession,
+  retrieveAllSessions
 };
