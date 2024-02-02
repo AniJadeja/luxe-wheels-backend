@@ -3,6 +3,7 @@ const {
   initiateSession,
   retrieveSession,
   retrieveAllSessions,
+  updateSession
 } = require("../database");
 
 const verifySession = async (sessionToken) => {
@@ -11,18 +12,17 @@ const verifySession = async (sessionToken) => {
   // verifies if session exists
 };
 
-
-const getUserUid = async (email) =>
-{
+const getUserUid = async (email) => {
   const user = await getUserFromEmail(email);
   return user._id;
-}
-
+};
 
 const getSessionOfCurrentBrowser = async (data) => {
   if (!data) return null;
-  const sessions = await retrieveAllSessions(data.uid);
+  const sessions = await retrieveAllSessions(data.email);
+
   let currentSession = null;
+
   sessions.forEach((session) => {
     if (
       session.browserName === data.browserName &&
@@ -42,7 +42,6 @@ const verifyUserEmail = async (email) => {
   return user ? user : false;
 };
 
-
 const signInUser = async (user, systemData) => {
   // get user from email
   const dbUser = await verifyUserEmail(user.email);
@@ -51,6 +50,37 @@ const signInUser = async (user, systemData) => {
   if (!dbUser) return false;
 
   if (dbUser.password === user.password) {
+    const sessionFetchData = {
+      email: user.email,
+      browserName: systemData.browserName,
+      browserVersion: systemData.browserVersion,
+      osName: systemData.osName,
+      screenRes: systemData.screenRes,
+    };
+
+    const currentSession = await getSessionOfCurrentBrowser(sessionFetchData);
+    if (currentSession) {
+      console.log(
+        "databaseControllerNew.js => signInUser : currentSession : ",
+        currentSession
+      );
+      try {
+        const sessionExpiration = await updateSession(currentSession, systemData);
+        if (!sessionExpiration) return null
+        return {
+          cookie: {
+            uid: dbUser._id,
+            expiration: sessionExpiration,
+          },
+          sessionToken: currentSession,
+        };
+       }
+       catch (err) {
+        console.log(err);
+        return null;
+      }
+    }
+
     const userData = {
       uid: dbUser._id,
       email: dbUser.email,
@@ -90,6 +120,5 @@ module.exports = {
   verifyUserEmail,
   signInUser,
   getSessionOfCurrentBrowser,
-  getUserUid
+  getUserUid,
 };
-
