@@ -11,8 +11,6 @@ class LoginDataModel {
   static validate(data) {
     const errors = {};
     
-  
-  
     if(!browsers.includes(data.browserName.toLowerCase())) {
       errors.browserName = "Invalid Browser Name";
     }

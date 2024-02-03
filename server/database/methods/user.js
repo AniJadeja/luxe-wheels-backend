@@ -2,7 +2,9 @@ const User = require("../models/User");
 const getUserFromEmail = async (email) => {
   // get user from email
   try {
+    console.log("user.js => getUserFromEmail => email : ", email)
     const user = await User.findOne({ email: email }).exec();
+    console.log("user.js => getUserFromEmail => user : ", user)
     if (!user) return false;
     return user;
   } catch (err) {
@@ -12,6 +14,7 @@ const getUserFromEmail = async (email) => {
 };
 
 const createUser = async (user) => {
+  const errors = {}
   try {
     const newUser = await User.create(user);
     if (!newUser) return false; //Bad Request
