@@ -37,13 +37,13 @@ const getSessionOfCurrentBrowser = async (data) => {
 
 const verifyUserEmail = async (email) => {
   // get user from email
-
   const user = await getUserFromEmail(email);
   return user ? user : false;
 };
 
 const signInUser = async (user, systemData) => {
   // get user from email
+
   const dbUser = await verifyUserEmail(user.email);
   // if user is present
   // check if password matches
@@ -59,6 +59,10 @@ const signInUser = async (user, systemData) => {
     };
 
     const currentSession = await getSessionOfCurrentBrowser(sessionFetchData);
+    console.log(
+      "databaseControllerNew.js => signInUser : currentSession : ",
+      currentSession
+    );
     if (currentSession) {
       console.log(
         "databaseControllerNew.js => signInUser : currentSession : ",
