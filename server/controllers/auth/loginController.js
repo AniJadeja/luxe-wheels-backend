@@ -1,10 +1,14 @@
-const { isUserEmailPresent, signInUser } = require("../../database/database");
+
+const { signInUser } = require("../databaseController");
 
 
 const loginUser = async (user, res) => {
   // check if isUserEmailPresent(email)
-  if (await isUserEmailPresent(user.email)) {
-    let isUserSignedIn = await signInUser(user);
+  const userData = req.user;
+  const systemData = req.data;
+
+  if (await  (userData.email)) {
+    let isUserSignedIn = await signInUser(userData, systemData);
     if (isUserSignedIn) {
       // returns true, return cookie
       sendCookie(res, isUserSignedIn.cookie);
@@ -18,7 +22,10 @@ const loginUser = async (user, res) => {
 };
 
 
-const sendCookie = (res, cookie) => {
+const sendCookie = (res, userData) => {
+  const cookie = userData.cookie;
+  const sessionToken = userData.sessionToken;
+  
   res.cookie("userId", cookie.uid, {
             maxAge: 259200000,
             httpOnly: true,
