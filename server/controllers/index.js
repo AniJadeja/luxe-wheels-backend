@@ -1,10 +1,23 @@
-const { signUpUser } = require('./auth');
-const { loginUser } = require('./auth');
+const { 
+  loginUser,
+  signUpUser 
+} = require('./auth');
 
 
-
+const {
+  verifySession,
+  verifyUserEmail,
+  signInUser,
+  getSessionOfCurrentBrowser,
+  getUserUid,
+} = require('./databaseController');
 
 module.exports = {
   signUpUser,
-  loginUser
+  loginUser,
+  verifySession,
+  verifyUserEmail,
+  signInUser,
+  getSessionOfCurrentBrowser,
+  getUserUid,
 }

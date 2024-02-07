@@ -11,17 +11,7 @@ const sessionSchema = new Schema({
         type : Date,
         required : true,
         trim : true,
-    },
-    sessionToken : {
-        type : String,
-        required : true,
-        trim : true,
-    },
-    fingerprintToken : {
-        type : String,
-        required : true,
-        trim : true,
-    },
+    }
 });
 
 
