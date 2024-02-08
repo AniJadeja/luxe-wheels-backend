@@ -28,7 +28,8 @@ const sendCookie = (res, userData) => {
             httpOnly: true,
             secure: true,
           })
-  res.status(200).send({ message : "User logged in successfully", sessionToken: sessionToken})      
+  res.status(200).send({ message : "User logged in successfully" , 
+                         sessionToken : sessionToken })      
 };
 
 
