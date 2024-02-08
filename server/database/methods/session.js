@@ -58,9 +58,6 @@ const addNewSession = async (userEmail, sessionData, expiration) => {
           currentSession = session._id;
       });
       const updatedSessionId = currentSession;
-      console.log(
-        "Session.js => addNewSession => updatedSessionId : " + updatedSessionId
-      );
       return updatedSessionId;
     } else {
       return null;
@@ -88,17 +85,16 @@ const updateSession = async (userSessionToken) => {
       }
     }
     if (sessionIndex == -1) {
-      console.log(
-        "Session.js => updateSession => No session found for token : ",
-        userSessionToken
-      );
       return null;
     }
     const newExpiration = new Date(
       new Date().getTime() + 259200000
     ).toUTCString();
-    session.sessions[sessionIndex].expiration = newExpiration; 
-    console.log("Session.js => updateSession => session.sessions : ", session.sessions)
+    session.sessions[sessionIndex].expiration = newExpiration;
+    console.log(
+      "Session.js => updateSession => session.sessions : ",
+      session.sessions
+    );
     const updatedSession = await NewSession.updateOne(
       { "sessions._id": userSessionToken },
       { $set: { ...session } }
@@ -124,11 +120,11 @@ const retrieveSession = async (sessionToken) => {
 };
 
 const retrieveAllSessions = async (email) => {
-  // retrieve all sessions from database 
+  // retrieve all sessions from database
   try {
     const session = await NewSession.find({ email: email });
     let userSessions = [];
-    const activeSessions = session[0].sessions
+    const activeSessions = session[0].sessions;
     activeSessions.forEach((element) => {
       userSessions.push(element);
     });
@@ -142,34 +138,24 @@ const retrieveAllSessions = async (email) => {
 const deleteSession = async (sessionToken) => {
   try {
     const session = await NewSession.findOne({ "sessions._id": sessionToken });
-    if (!session) {
-      return null;
+    if (!session) return null;
+    if (session.sessions.length == 1) {
+      const deletedSession = await NewSession.deleteOne({
+        "sessions._id": sessionToken,
+      });
+      return deletedSession.deletedCount > 0 ? true : false;
     }
 
-    const deletedSession = await NewSession.deleteOne({
-      "sessions._id": sessionToken,
-    }); 
-    return deletedSession.deletedCount > 0 ? true : false;
+    const updatedSession = await NewSession.updateOne(
+      { "sessions._id": sessionToken },
+      { $pull: { sessions: { _id: sessionToken } } }
+    );
+    return updatedSession.modifiedCount > 0 ? true : false;
   } catch (error) {
     console.log("deleteSession => error deleting session : ", error);
     return null;
   }
 };
-
-const expiration2 = new Date(new Date().getTime() + 259200000).toUTCString();
-const sessionDataToPass = {
-  browserName: "edge",
-  browserVersion: "10.0.0",
-  osName: "win 11",
-  screenRes: "360*480",
-};
-const userSessionTokenToPass = "RajK123@ixios.com";
-
-//retrieveAllSessions("RajK123@ixios.com");
-
-//console.log(addNewSession(userSessionTokenToPass, sessionDataToPass, expiration2));
-
-//deleteSession();
 
 module.exports = {
   initiateSession,
