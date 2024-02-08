@@ -49,6 +49,9 @@ const signInUser = async (user, systemData) => {
   // check if password matches
   if (!dbUser) return false;
 
+
+
+
   if (dbUser.password === user.password) {
     const sessionFetchData = {
       email: user.email,
@@ -59,15 +62,7 @@ const signInUser = async (user, systemData) => {
     };
 
     const currentSession = await getSessionOfCurrentBrowser(sessionFetchData);
-    console.log(
-      "databaseControllerNew.js => signInUser : currentSession : ",
-      currentSession
-    );
     if (currentSession) {
-      console.log(
-        "databaseControllerNew.js => signInUser : currentSession : ",
-        currentSession
-      );
       try {
         const sessionExpiration = await updateSession(currentSession, systemData);
         if (!sessionExpiration) return null
@@ -84,6 +79,10 @@ const signInUser = async (user, systemData) => {
         return null;
       }
     }
+
+
+
+
 
     const userData = {
       uid: dbUser._id,
