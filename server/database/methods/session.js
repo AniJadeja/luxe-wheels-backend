@@ -23,15 +23,66 @@ const initiateSession = async (userData, sessionData, expiration) => {
   return newSession.sessions[0]._id;
 };
 
-const updateSession = async (sessionToken) => {
+const addNewSession = async (userEmail, sessionData, expiration) => {
   try {
-    const session = await NewSession.findOne({ "sessions._id": sessionToken });
+    const session = await NewSession.findOne({
+      email: userEmail,
+    });
+    if (!session) {
+      return null;
+    }
+    let sessions = session.sessions;
+    sessions.push({
+      expiration: expiration,
+      browserName: sessionData.browserName,
+      browserVersion: sessionData.browserVersion,
+      osName: sessionData.osName,
+      screenRes: sessionData.screenRes,
+    });
+    const updatedSession = await NewSession.updateOne(
+      { email: userEmail },
+      { $set: { sessions } }
+    );
+    if (updatedSession.modifiedCount > 0) {
+      const sessions = await retrieveAllSessions(userEmail);
+
+      let currentSession = null;
+
+      sessions.forEach((session) => {
+        if (
+          session.browserName === sessionData.browserName &&
+          session.browserVersion === sessionData.browserVersion &&
+          session.osName === sessionData.osName &&
+          session.screenRes === sessionData.screenRes
+        )
+          currentSession = session._id;
+      });
+      const updatedSessionId = currentSession;
+      console.log(
+        "Session.js => addNewSession => updatedSessionId : " + updatedSessionId
+      );
+      return updatedSessionId;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log("addNewSession => error adding new session : ", error);
+    return null;
+  }
+};
+
+const updateSession = async (userSessionToken) => {
+  try {
+    const session = await NewSession.findOne({
+      "sessions._id": userSessionToken,
+    });
+    console.log("Session.js => updateSession => session : " + session);
     if (!session) {
       return null;
     }
     let sessionIndex = -1;
     for (let i = 0; i < session.sessions.length; i++) {
-      if (session.sessions[i]._id.toString() == sessionToken.toString()) {
+      if (session.sessions[i]._id.toString() == userSessionToken.toString()) {
         sessionIndex = i;
         break;
       }
@@ -39,7 +90,7 @@ const updateSession = async (sessionToken) => {
     if (sessionIndex == -1) {
       console.log(
         "Session.js => updateSession => No session found for token : ",
-        sessionToken
+        userSessionToken
       );
       return null;
     }
@@ -48,7 +99,7 @@ const updateSession = async (sessionToken) => {
     ).toUTCString();
     session.sessions[sessionIndex].expiration = newExpiration;
     const updatedSession = await NewSession.updateOne(
-      { "sessions._id": sessionToken },
+      { "sessions._id": userSessionToken },
       { $set: { "sessions.$": session.sessions } }
     );
     return updatedSession ? newExpiration : false;
@@ -72,12 +123,13 @@ const retrieveSession = async (sessionToken) => {
 };
 
 const retrieveAllSessions = async (email) => {
-  // retrieve all sessions from database
+  // retrieve all sessions from database 
   try {
-    const sessions = await NewSession.find({ email: email });
+    const session = await NewSession.find({ email: email });
     let userSessions = [];
-    sessions.forEach((element) => {
-      userSessions.push(element.sessions[0]);
+    const activeSessions = session[0].sessions
+    activeSessions.forEach((element) => {
+      userSessions.push(element);
     });
     return userSessions;
   } catch (error) {
@@ -95,17 +147,34 @@ const deleteSession = async (sessionToken) => {
 
     const deletedSession = await NewSession.deleteOne({
       "sessions._id": sessionToken,
-    });
+    }); 
     return deletedSession.deletedCount > 0 ? true : false;
   } catch (error) {
     console.log("deleteSession => error deleting session : ", error);
     return null;
   }
 };
+
+const expiration2 = new Date(new Date().getTime() + 259200000).toUTCString();
+const sessionDataToPass = {
+  browserName: "edge",
+  browserVersion: "10.0.0",
+  osName: "win 11",
+  screenRes: "360*480",
+};
+const userSessionTokenToPass = "RajK123@ixios.com";
+
+//retrieveAllSessions("RajK123@ixios.com");
+
+//console.log(addNewSession(userSessionTokenToPass, sessionDataToPass, expiration2));
+
+//deleteSession();
+
 module.exports = {
   initiateSession,
   retrieveSession,
   retrieveAllSessions,
   deleteSession,
   updateSession,
+  addNewSession,
 };

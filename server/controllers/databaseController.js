@@ -3,7 +3,8 @@ const {
   initiateSession,
   retrieveSession,
   retrieveAllSessions,
-  updateSession
+  updateSession,
+  addNewSession
 } = require("../database");
 
 const verifySession = async (sessionToken) => {
@@ -20,7 +21,7 @@ const getUserUid = async (email) => {
 const getSessionOfCurrentBrowser = async (data) => {
   if (!data) return null;
   const sessions = await retrieveAllSessions(data.email);
-
+  if (!sessions) return null;
   let currentSession = null;
 
   sessions.forEach((session) => {
@@ -49,9 +50,6 @@ const signInUser = async (user, systemData) => {
   // check if password matches
   if (!dbUser) return false;
 
-
-
-
   if (dbUser.password === user.password) {
     const sessionFetchData = {
       email: user.email,
@@ -61,28 +59,46 @@ const signInUser = async (user, systemData) => {
       screenRes: systemData.screenRes,
     };
 
-    const currentSession = await getSessionOfCurrentBrowser(sessionFetchData);
-    if (currentSession) {
+    const currentBrowserSession = await getSessionOfCurrentBrowser(
+      sessionFetchData
+    );
+
+    console.log(
+      "databaseController => signInUser => currentSession : ",
+      currentBrowserSession
+    );
+    if (currentBrowserSession) {
       try {
-        const sessionExpiration = await updateSession(currentSession, systemData);
-        if (!sessionExpiration) return null
+        const sessionExpiration = await updateSession(currentBrowserSession);
+        if (!sessionExpiration) return null;
         return {
           cookie: {
             uid: dbUser._id,
             expiration: sessionExpiration,
           },
-          sessionToken: currentSession,
+          sessionToken: currentBrowserSession,
         };
-       }
-       catch (err) {
+      } catch (err) {
         console.log(err);
         return null;
       }
+    } else if (!currentBrowserSession) {
+      const sessions = await retrieveAllSessions(user.email);
+      if (sessions && sessions.length > 0){
+        const expiration = new Date(
+          new Date().getTime() + 259200000
+        ).toUTCString();
+        const updatedSessionId = await addNewSession(user.email, systemData, expiration)
+        return updatedSessionId ? ({
+        cookie: {
+          uid: dbUser._id,
+          expiration: expiration,
+        },
+        sessionToken: updatedSessionId }) 
+        : null;
+      }
+      
     }
-
-
-
-
 
     const userData = {
       uid: dbUser._id,
