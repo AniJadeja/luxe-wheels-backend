@@ -97,10 +97,11 @@ const updateSession = async (userSessionToken) => {
     const newExpiration = new Date(
       new Date().getTime() + 259200000
     ).toUTCString();
-    session.sessions[sessionIndex].expiration = newExpiration;
+    session.sessions[sessionIndex].expiration = newExpiration; 
+    console.log("Session.js => updateSession => session.sessions : ", session.sessions)
     const updatedSession = await NewSession.updateOne(
       { "sessions._id": userSessionToken },
-      { $set: { "sessions.$": session.sessions } }
+      { $set: { ...session } }
     );
     return updatedSession ? newExpiration : false;
   } catch (err) {
