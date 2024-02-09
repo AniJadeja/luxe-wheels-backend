@@ -6,6 +6,7 @@ const {
   pingEndPoint,
   signUpEndPoint,
   loginEndPoint,
+  logOutEndPoint
 } = require("./server/config/endpoints.js");
 
 const express = require("express");
@@ -22,14 +23,17 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
-
-app.use(pingEndPoint, pingRouter);
-app.use(signUpEndPoint, authRouter.signupRouter);
-app.use(loginEndPoint, authRouter.loginRouter);
+// Middleware
 app.use((req, res, next) => {
   console.log(`Request received for endpoint: ${req.originalUrl}`);
   next();
 });
+app.use(pingEndPoint, pingRouter);
+app.use(signUpEndPoint, authRouter.signupRouter);
+app.use(loginEndPoint, authRouter.loginRouter);
+app.use(logOutEndPoint, authRouter.logOutRouter);
+
+
 mongoose.connection.once("connected", () => {
 
   const req = {
