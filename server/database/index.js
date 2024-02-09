@@ -5,6 +5,7 @@ const {
   retrieveSession,
   retrieveAllSessions,
   updateSession,
+  deleteSession,
   addNewSession,
 } = require("./methods");
 
@@ -15,5 +16,6 @@ module.exports = {
   retrieveSession,
   retrieveAllSessions,
   updateSession,
+  deleteSession,
   addNewSession,
 };
