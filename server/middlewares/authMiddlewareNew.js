@@ -1,6 +1,7 @@
 const { UserModel } = require("../models/userModel");
 const  LoginUserModel  = require("../models/loginUserModel");
 const { LoginDataModel } = require("../models/loginData");
+const { LogOutUserModel } = require("../models/logOutUserModel")
 
 const verifySignUpCreds = (req, res, next) => {
   const errors = UserModel.validate(req.body);
@@ -21,4 +22,15 @@ const verifyLoginCreds = (req, res, next) => {
   next(); 
 }
 
-module.exports = { verifySignUpCreds, verifyLoginCreds} ;
+const verifyLogoutCreds = (req, res, next) =>
+{
+  const errors = LogOutUserModel.validate(req.body.sessionToken);
+  console.log("authMiddlewareNew => verifyLogoutCreds => errors : ",errors)
+  errors
+  ?
+  res.status(400).json({ message: "Logout Error", errors : "Session Token Invalid"})
+  :
+  next()
+}
+
+module.exports = { verifySignUpCreds, verifyLoginCreds, verifyLogoutCreds } ;
