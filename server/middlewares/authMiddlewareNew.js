@@ -21,4 +21,9 @@ const verifyLoginCreds = (req, res, next) => {
   next(); 
 }
 
-module.exports = { verifySignUpCreds, verifyLoginCreds} ;
+const verifyLogoutCreds = (req, res, next) =>
+{
+  next();
+}
+
+module.exports = { verifySignUpCreds, verifyLoginCreds, verifyLogoutCreds } ;

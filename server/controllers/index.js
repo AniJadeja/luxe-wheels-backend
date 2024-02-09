@@ -1,6 +1,7 @@
 const { 
   loginUser,
-  signUpUser 
+  signUpUser,
+  logOutUser
 } = require('./auth');
 
 
@@ -15,6 +16,7 @@ const {
 module.exports = {
   signUpUser,
   loginUser,
+  logOutUser,
   verifySession,
   verifyUserEmail,
   signInUser,
