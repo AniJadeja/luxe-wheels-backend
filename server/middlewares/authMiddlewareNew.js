@@ -24,6 +24,7 @@ const verifyLoginCreds = (req, res, next) => {
 
 const verifyLogoutCreds = (req, res, next) =>
 {
+
   const errors = LogOutUserModel.validate(req.body.sessionToken);
   console.log("authMiddlewareNew => verifyLogoutCreds => errors : ",errors)
   errors
@@ -31,6 +32,7 @@ const verifyLogoutCreds = (req, res, next) =>
   res.status(400).json({ message: "Logout Error", errors : "Session Token Invalid"})
   :
   next()
+
 }
 
 module.exports = { verifySignUpCreds, verifyLoginCreds, verifyLogoutCreds } ;
