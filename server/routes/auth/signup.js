@@ -1,7 +1,6 @@
-const express = require("express");
-const router = express.Router();
-const { signUpUser } = require("../../controllers/index.js");
-const { verifyAuthCreds } = require("../../middlewares/index.js");
+const router = require("express").Router();
+const { signUpUser } = require("../../controllers");
+const { verifyAuthCreds } = require("../../middlewares");
 
 const signupRouter = router.post(
   "/",

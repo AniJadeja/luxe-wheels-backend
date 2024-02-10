@@ -1,6 +1,5 @@
-const express = require("express");
-const router = express.Router();
-const { verifyAuthCreds } = require("../../middlewares/index.js");
+const router = require("express").Router();
+const { verifyAuthCreds } = require("../../middlewares");
 const { logOutUser } = require("../../controllers");
 
 const logoutRouter = router.post(
