@@ -138,7 +138,7 @@ const retrieveAllSessions = async (email) => {
 const deleteSession = async (sessionToken) => {
   try {
     const session = await NewSession.findOne({ "sessions._id": sessionToken });
-    if (!session) return null;
+    if (!session) return 404;
     if (session.sessions.length == 1) {
       const deletedSession = await NewSession.deleteOne({
         "sessions._id": sessionToken,
@@ -153,7 +153,7 @@ const deleteSession = async (sessionToken) => {
     return updatedSession.modifiedCount > 0 ? true : false;
   } catch (error) {
     console.log("deleteSession => error deleting session : ", error);
-    return null;
+    return 500;
   }
 };
 
