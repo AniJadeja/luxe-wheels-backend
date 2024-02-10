@@ -13,6 +13,8 @@ const {
   getUserUid,
 } = require('./databaseController');
 
+const { ping } = require('./pingController');
+
 module.exports = {
   signUpUser,
   loginUser,
@@ -22,4 +24,5 @@ module.exports = {
   signInUser,
   getSessionOfCurrentBrowser,
   getUserUid,
+  ping
 }
