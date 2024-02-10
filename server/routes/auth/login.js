@@ -1,12 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const { verifyAuthCreds } = require('../../middlewares/index.js');
-const { loginUser } = require('../../controllers/index.js');
+const router = require("express").Router();
+const { verifyAuthCreds } = require("../../middlewares");
+const { loginUser } = require("../../controllers");
 
-const loginRouter = router.post('/' , verifyAuthCreds.verifyLoginCreds, (req, res) => {
-
-   loginUser(req.body, res);
-  //res.status(200).json({ message: 'login endpoint reached.' , errors : {}});
- });
+const loginRouter = router.post(
+  "/",
+  verifyAuthCreds.verifyLoginCreds,
+  (req, res) => loginUser(req.body, res)
+);
 
 module.exports = loginRouter;
