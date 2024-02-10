@@ -1,5 +1,5 @@
 const pingRouter = require('./ping.js');
-const authRouter = require('./auth/index.js');
+const authRouter = require('./auth');
 
 module.exports = {
   pingRouter,
