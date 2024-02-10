@@ -1,11 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { ping } = require('../controllers/pingController.js');
+const { ping } = require("../controllers/pingController.js");
 
-const pingRouter = router.get('/',(req, res) => {
-    // redirect auth.js to authController.js
-    ping(req, res);
-   });
+const pingRouter = router.get("/", (req, res) => ping(req, res));
 
-
-   module.exports = pingRouter;
+module.exports = pingRouter;
