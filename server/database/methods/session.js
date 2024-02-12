@@ -1,9 +1,9 @@
-const NewSession = require("../models/SessionNew");
+const session = require("../models/Session");
 
 const initiateSession = async (userData, sessionData, expiration) => {
   let newSession;
   try {
-    newSession = await NewSession.create({
+    newSession = await session.create({
       uid: userData.uid,
       email: userData.email,
       sessions: [
@@ -25,7 +25,7 @@ const initiateSession = async (userData, sessionData, expiration) => {
 
 const addNewSession = async (userEmail, sessionData, expiration) => {
   try {
-    const session = await NewSession.findOne({
+    const session = await session.findOne({
       email: userEmail,
     });
     if (!session) {
@@ -39,7 +39,7 @@ const addNewSession = async (userEmail, sessionData, expiration) => {
       osName: sessionData.osName,
       screenRes: sessionData.screenRes,
     });
-    const updatedSession = await NewSession.updateOne(
+    const updatedSession = await session.updateOne(
       { email: userEmail },
       { $set: { sessions } }
     );
@@ -70,7 +70,7 @@ const addNewSession = async (userEmail, sessionData, expiration) => {
 
 const updateSession = async (userSessionToken) => {
   try {
-    const session = await NewSession.findOne({
+    const session = await session.findOne({
       "sessions._id": userSessionToken,
     });
     if (!session) {
@@ -94,7 +94,7 @@ const updateSession = async (userSessionToken) => {
       "Session.js => updateSession => session.sessions : ",
       session.sessions
     );
-    const updatedSession = await NewSession.updateOne(
+    const updatedSession = await session.updateOne(
       { "sessions._id": userSessionToken },
       { $set: { ...session } }
     );
@@ -110,7 +110,7 @@ const retrieveSession = async (sessionToken) => {
     if (!sessionToken) {
       return null;
     }
-    const session = await NewSession.findOne({ "sessions._id": sessionToken });
+    const session = await session.findOne({ "sessions._id": sessionToken });
     return session;
   } catch (error) {
     console.log("retrieveSession => error retrieving session : ", error);
@@ -121,7 +121,7 @@ const retrieveSession = async (sessionToken) => {
 const retrieveAllSessions = async (email) => {
   // retrieve all sessions from database
   try {
-    const session = await NewSession.find({ email: email });
+    const session = await session.find({ email: email });
     let userSessions = [];
     const activeSessions = session[0].sessions;
     activeSessions.forEach((element) => {
@@ -136,16 +136,16 @@ const retrieveAllSessions = async (email) => {
 
 const deleteSession = async (sessionToken) => {
   try {
-    const session = await NewSession.findOne({ "sessions._id": sessionToken });
+    const session = await session.findOne({ "sessions._id": sessionToken });
     if (!session) return 404;
     if (session.sessions.length == 1) {
-      const deletedSession = await NewSession.deleteOne({
+      const deletedSession = await session.deleteOne({
         "sessions._id": sessionToken,
       });
       return deletedSession.deletedCount > 0 ? true : false;
     }
 
-    const updatedSession = await NewSession.updateOne(
+    const updatedSession = await session.updateOne(
       { "sessions._id": sessionToken },
       { $pull: { sessions: { _id: sessionToken } } }
     );
