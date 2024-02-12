@@ -7,6 +7,7 @@ const {
   updateSession,
   deleteSession,
   addNewSession,
+  getUserFromId
 } = require("./methods");
 
 module.exports = {
@@ -18,4 +19,5 @@ module.exports = {
   updateSession,
   deleteSession,
   addNewSession,
+  getUserFromId
 };

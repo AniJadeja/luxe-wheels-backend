@@ -2,9 +2,8 @@ const router = require("express").Router();
 const { getUserData } = require("../controllers");
 const { verifyUserInput } = require("../middlewares");
 
-const userRouter = router.post("/user", verifyUserInput , (req, res) => {
-    console.log("Reached /user endpoint");
-    getUserData(req, res);
-});
+const userRouter = router.post("/", verifyUserInput, (req, res) =>
+  getUserData(req, res)
+);
 
 module.exports = { userRouter };

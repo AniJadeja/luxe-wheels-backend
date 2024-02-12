@@ -1,11 +1,12 @@
-const { getUserFromEmail, createUser } = require("./user");
+const { getUserFromEmail, createUser, getUserFromId } = require("./user");
 const { 
   initiateSession, 
   retrieveSession, 
   retrieveAllSessions, 
   updateSession,
   deleteSession, 
-  addNewSession} = require("./session");
+  addNewSession,
+} = require("./session");
 
 module.exports = {
   getUserFromEmail,
@@ -15,5 +16,6 @@ module.exports = {
   retrieveAllSessions,
   updateSession,
   deleteSession,
-  addNewSession
+  addNewSession,
+  getUserFromId
 };
