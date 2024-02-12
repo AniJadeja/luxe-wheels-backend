@@ -73,7 +73,6 @@ const updateSession = async (userSessionToken) => {
     const session = await NewSession.findOne({
       "sessions._id": userSessionToken,
     });
-    console.log("Session.js => updateSession => session : " + session);
     if (!session) {
       return null;
     }

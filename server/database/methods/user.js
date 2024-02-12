@@ -24,6 +24,7 @@ const getUserFromId = async (id) => {
 }
 
 const createUser = async (user) => {
+  console.log("user.js => createUser => user.password: ", user.password);
   const errors = {}
   try {
     const newUser = await User.create(user);
