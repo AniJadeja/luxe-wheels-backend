@@ -28,6 +28,12 @@ app.use(cors());
 // Middleware
 app.use((req, res, next) => {
   console.log(`Request received for endpoint: ${req.originalUrl}`);
+  console.log(`Request type: ${req.method}`);
+  console.log(`Request body: ${JSON.stringify(req.body)}`);
+  console.log(`Request query: ${JSON.stringify(req.query)}`);
+  console.log(`Request params: ${JSON.stringify(req.params)}`);
+  // print the full url of the request
+  console.log(`Request full url: ${req.protocol}://${req.get("host")}${req.originalUrl}`);
   next();
 });
 app.use(pingEndPoint, pingRouter);
