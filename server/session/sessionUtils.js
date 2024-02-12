@@ -1,6 +1,3 @@
-const { initiateSession, verifySession, removeSession } = require('./sessionDBUtils');
-
-
 function updateSession(uid, expiration) {
 
   return new Promise((resolve, reject) => {

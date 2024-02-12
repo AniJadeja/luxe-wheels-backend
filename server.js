@@ -2,11 +2,13 @@ require("dotenv").config();
 const { retrieveAllSessions } = require("./server/database/methods/session.js");
 // Routers
 const { pingRouter, authRouter } = require("./server/routes/index.js");
+const { getUserData  } = require("./server/features")
 const {
   pingEndPoint,
   signUpEndPoint,
   loginEndPoint,
-  logOutEndPoint
+  logOutEndPoint,
+  userEndPoint
 } = require("./server/config/endpoints.js");
 
 const express = require("express");
@@ -32,7 +34,7 @@ app.use(pingEndPoint, pingRouter);
 app.use(signUpEndPoint, authRouter.signupRouter);
 app.use(loginEndPoint, authRouter.loginRouter);
 app.use(logOutEndPoint, authRouter.logOutRouter);
-
+app.use(userEndPoint, getUserData);
 
 mongoose.connection.once("connected", () => {
 
