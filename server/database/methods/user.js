@@ -11,6 +11,18 @@ const getUserFromEmail = async (email) => {
   }
 };
 
+const getUserFromId = async (id) => {
+  try {
+    const user = await User.findById({ _id: id }).exec();
+    if (!user) return false;
+    return user;
+  }
+  catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
 const createUser = async (user) => {
   const errors = {}
   try {
@@ -26,4 +38,5 @@ const createUser = async (user) => {
 module.exports = {
   getUserFromEmail,
   createUser,
+  getUserFromId
 };
