@@ -7,6 +7,8 @@ const {
   addNewSession
 } = require("../database");
 
+
+const bcrypt = require("bcrypt");
 const verifySession = async (sessionToken) => {
   const session = await retrieveSession(sessionToken);
   return session ? true : false;
@@ -49,8 +51,7 @@ const signInUser = async (user, systemData) => {
   // if user is present
   // check if password matches
   if (!dbUser) return false;
-
-  if (dbUser.password === user.password) {
+  if (await bcrypt.compare(user.password, dbUser.password)) {
     const sessionFetchData = {
       email: user.email,
       browserName: systemData.browserName,
