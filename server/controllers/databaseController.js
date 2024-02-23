@@ -50,6 +50,7 @@ const signInUser = async (user, systemData) => {
   const dbUser = await verifyUserEmail(user.email);
   // if user is present
   // check if password matches
+  dbUser ? console.log("signInUser => dbUser : ", dbUser) : console.log("No user found");
   if (!dbUser) return false;
   if (await bcrypt.compare(user.password, dbUser.password)) {
     const sessionFetchData = {
@@ -59,7 +60,7 @@ const signInUser = async (user, systemData) => {
       osName: systemData.osName,
       screenRes: systemData.screenRes,
     };
-
+    console.log("Password matches")
     const currentBrowserSession = await getSessionOfCurrentBrowser(
       sessionFetchData
     );
@@ -69,9 +70,12 @@ const signInUser = async (user, systemData) => {
       currentBrowserSession
     );
     if (currentBrowserSession) {
+      console.log("signInUser => session exists");
       try {
+        console.log("signInUser => updating session");
         const sessionExpiration = await updateSession(currentBrowserSession);
         if (!sessionExpiration) return null;
+        console.log("signInUser => session updated");
         return {
           cookie: {
             uid: dbUser._id,
@@ -80,12 +84,14 @@ const signInUser = async (user, systemData) => {
           sessionToken: currentBrowserSession,
         };
       } catch (err) {
-        console.log(err);
+        console.log("Error updating session : ",err);
         return null;
       }
     } else if (!currentBrowserSession) {
+      console.log("signInUser => session does not exist");
       const sessions = await retrieveAllSessions(user.email);
       if (sessions && sessions.length > 0){
+        console.log("signInUser => sessions : ",sessions);
         const expiration = new Date(
           new Date().getTime() + 259200000
         ).toUTCString();
@@ -97,6 +103,9 @@ const signInUser = async (user, systemData) => {
         },
         sessionToken: updatedSessionId }) 
         : null;
+      }
+      else{
+        console.log("signInUser => no sessions length found");
       }
       
     }
