@@ -4,7 +4,8 @@ const { get } = require("http");
 
 const isUserEmailPresent = async (email) => {
   // get user from email
-  const duplicate = await User.findOne({ email: email }).exec();
+  const loweredEmail = email.toLowerCase();
+  const duplicate = await User.findOne({ email: loweredEmail }).exec();
   if (!duplicate) return false; //Conflict
 
   // if user is present return true
@@ -15,7 +16,7 @@ const isUserEmailPresent = async (email) => {
 
 const registerUser = async (user) => {
   // insert user into database
-
+  user.email = user.email.toLowerCase();
   const newUser = await User.create(user);
   if (!newUser) return false; //Bad Request
   // return true if user is inserted
@@ -25,7 +26,7 @@ const registerUser = async (user) => {
 
 const signInUser = async (user) => {
   // get user from email
-
+  user.email = user.email.toLowerCase();
   const dbUser = await User.findOne({ email: user.email }).exec();
   // if user is present
   // check if password matches

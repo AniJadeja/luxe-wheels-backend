@@ -18,7 +18,7 @@ class LoginDataModel {
     // or 0.0.0.0
     // or any single digit number in the version number followed by a dot
     
-    if(!data.browserVersion.match(/^\d+(\.\d+){0,2}$/)) {
+    if(!data.browserVersion.match(/^\d+(\.\d+){2,3}$/)) {
       errors.browserVersion = "Invalid Browser Version";
     }
     if(!data.osName) {
