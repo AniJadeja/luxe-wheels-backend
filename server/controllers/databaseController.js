@@ -16,12 +16,14 @@ const verifySession = async (sessionToken) => {
 };
 
 const getUserUid = async (email) => {
+  email = email.toLowerCase();
   const user = await getUserFromEmail(email);
   return user._id;
 };
 
 const getSessionOfCurrentBrowser = async (data) => {
   if (!data) return null;
+  data.email = data.email.toLowerCase();
   const sessions = await retrieveAllSessions(data.email);
   if (!sessions) return null;
   let currentSession = null;
@@ -40,13 +42,14 @@ const getSessionOfCurrentBrowser = async (data) => {
 
 const verifyUserEmail = async (email) => {
   // get user from email
+  email = email.toLowerCase();
   const user = await getUserFromEmail(email);
   return user ? user : false;
 };
 
 const signInUser = async (user, systemData) => {
   // get user from email
-
+  user.email = user.email.toLowerCase();
   const dbUser = await verifyUserEmail(user.email);
   // if user is present
   // check if password matches
@@ -54,7 +57,7 @@ const signInUser = async (user, systemData) => {
   if (!dbUser) return false;
   if (await bcrypt.compare(user.password, dbUser.password)) {
     const sessionFetchData = {
-      email: user.email,
+      email: user.email.toLowerCase(),
       browserName: systemData.browserName,
       browserVersion: systemData.browserVersion,
       osName: systemData.osName,
@@ -89,6 +92,7 @@ const signInUser = async (user, systemData) => {
       }
     } else if (!currentBrowserSession) {
       console.log("signInUser => session does not exist");
+      user.email = user.email.toLowerCase();
       const sessions = await retrieveAllSessions(user.email);
       if (sessions && sessions.length > 0){
         console.log("signInUser => sessions : ",sessions);
@@ -112,7 +116,7 @@ const signInUser = async (user, systemData) => {
 
     const userData = {
       uid: dbUser._id,
-      email: dbUser.email,
+    email: dbUser.email.toLowerCase(),
     };
     // Convert the timestamp to a Date object
     const expirationDate = new Date(

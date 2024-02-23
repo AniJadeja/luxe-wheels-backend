@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const getUserFromEmail = async (email) => {
+  email = email.toLowerCase();
   // get user from email
   try {
     const user = await User.findOne({ email: email }).exec();
@@ -24,6 +25,7 @@ const getUserFromId = async (id) => {
 }
 
 const createUser = async (user) => {
+  user.email = user.email.toLowerCase();
   console.log("user.js => createUser => user.password: ", user.password);
   const errors = {}
   try {
