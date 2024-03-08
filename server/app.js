@@ -1,13 +1,14 @@
 
 // Routers
 const { pingRouter, authRouter } = require("./routes");
-const { getUserData  } = require("./features")
+const { getUserData, getFeaturedCarsRouter  } = require("./features")
 const {
   pingEndPoint,
   signUpEndPoint,
   loginEndPoint,
   logOutEndPoint,
-  userEndPoint
+  userEndPoint,
+  carsEP
 } = require("./config/endpoints.js");
 
 const express = require("express");
@@ -30,6 +31,7 @@ app.use(signUpEndPoint, authRouter.signupRouter);
 app.use(loginEndPoint, authRouter.loginRouter);
 app.use(logOutEndPoint, authRouter.logOutRouter);
 app.use(userEndPoint, getUserData);
+app.use(carsEP, getFeaturedCarsRouter);
 
 module.exports = { app };
 
