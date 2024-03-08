@@ -39,33 +39,32 @@ const updateCars = async ({car}) => {
 }
 
 
-// const fetchAllCars = async () => {
-//   try {
-//     let cars = await FeaturedCarsImages.findOne();
-//     cars = Buffer.from(cars.data);
-//     sharp(cars)
-//     .toFormat('jpeg') // or 'png', 'webp', etc. as per your requirement
-//     .toBuffer()
-//     .then((buffer) => {
-//         // Convert buffer to base64 string
-//         return buffer.toString('base64');
-//     })
-//     .catch((err) => {
-//         console.error('Error converting image:', err);
-//         throw new Error('Error converting image');
-//     });
-//     console.log("Cars fetched successfully");
-//     console.log(cars);
-//     return cars;
-//   } catch (error) {
-//     console.error("Error getting cars:", error);
-//     throw new Error("Error getting cars");
-//   }
-// };
+const fetchAllCars = async () => {
+  try {
+    let cars = await AllCars.find();
+    if (!cars) throw new Error("Error getting cars");
+    return cars;
+  } catch (error) {
+    console.error("Error getting cars:", error);
+    throw new Error("Error getting cars");
+  }
+};
+
+const fetchQueriedCars = async (queryParam) => {
+  try {
+    let cars = await AllCars.find({carType: queryParam});
+    if (!cars) throw new Error("Error getting cars");
+    return cars;
+  } catch (error) {
+    console.error("Error getting cars:", error);
+    throw new Error("Error getting cars");
+  }
+};
 
 module.exports = {
   // uploadCars,
   updateCars,
-  // fetchAllCars,
+  fetchAllCars,
+  fetchQueriedCars
   // uploadImage,
 };
