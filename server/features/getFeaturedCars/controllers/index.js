@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { uploadCars, fetchAllCars, updateCars } = require("../database/methods/index.js");
+const { uploadCars, fetchAllCars, updateCars, fetchQueriedCars } = require("../database/methods/index.js");
 const { uploadImage } = require("../database/methods/firebaseStorage.js");
 const { getDownloadURL } = require("firebase-admin/storage");
 const generate3DigitRandomNumber = require("../../../utils/generate3DigitRandomNumber.js");
@@ -125,15 +125,22 @@ const getAllCars = async (req, res) => {
       console.error("Error getting cars");
       throw new Error("Error getting cars");
     }
-    const respose = {
-      name: "Toyota Corolla",
-      photo: cars,
-      price: "#239",
-      ownerName: "Jeff Su",
-      milage: "200",
-      carCondition: "New",
-    };
-    res.status(200).json(respose);
+    res.status(200).json({message: "Cars fetched successfully", cars: cars});
+    return cars;
+  } catch (error) {
+    console.error("Error getting cars:", error);
+    res.status(500).send("Error getting cars");
+  }
+};
+
+const getQueriedCars = async (queryParam, res) => {
+  try {
+    const cars = await fetchQueriedCars(queryParam);
+    if (!cars) {
+      console.error("Error getting cars");
+      throw new Error("Error getting cars");
+    }
+    res.status(200).json({message: "Cars fetched successfully", cars: cars});
     return cars;
   } catch (error) {
     console.error("Error getting cars:", error);
@@ -144,4 +151,5 @@ const getAllCars = async (req, res) => {
 module.exports = {
   upload,
   getAllCars,
+  getQueriedCars,
 };
