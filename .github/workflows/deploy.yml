@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - render
+      - testRender
 
 jobs:
   deploy:
