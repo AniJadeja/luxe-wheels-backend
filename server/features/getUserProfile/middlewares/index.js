@@ -1,7 +1,7 @@
 const verifyUserInput = (req,res,next) => {
 console.log("getUserProfileMiddleware => verifying");
-    const { userId } = req.body;
-    if (userId)
+    const { sessionToken } = req.body;
+    if (sessionToken)
     {
         console.log("getUserProfileMiddleware => verified");
         next();
@@ -11,7 +11,7 @@ console.log("getUserProfileMiddleware => verifying");
         console.log("getUserProfileMiddleware => not verified");
         res.status(400).json({
             message:
-            "Please provide a userId"
+            "Please provide a sessionToken"
         });
     }
 }
