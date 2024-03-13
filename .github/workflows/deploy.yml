@@ -1,0 +1,15 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - render
+      - testRender
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call Render Deploy Hook
+        run: curl -X POST https://api.render.com/deploy/srv-cmssko7109ks73a09m70?key=4QPN25RW8RM
