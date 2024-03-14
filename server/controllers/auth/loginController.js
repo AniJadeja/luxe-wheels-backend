@@ -7,7 +7,6 @@ const loginUser = async (req, res) => {
   const systemData = req.data;
   if (await  (userData.email)) {
     let isUserSignedIn = await signInUser(userData, systemData);
-    console.log("isUserSignedIn : ",isUserSignedIn)
     if (isUserSignedIn) {
       // returns true, return cookie
       sendCookie(res, isUserSignedIn);
