@@ -7,7 +7,7 @@ const sessionToUidSchema = new Schema({
         required: true,
         trim: true,
       },
-      Uid: {
+      uid: {
         type: String,
         required: true,
         trim: true,
