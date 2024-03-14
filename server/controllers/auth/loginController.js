@@ -7,7 +7,6 @@ const loginUser = async (req, res) => {
   const systemData = req.data;
   if (await  (userData.email)) {
     let isUserSignedIn = await signInUser(userData, systemData);
-    console.log("isUserSignedIn : ",isUserSignedIn)
     if (isUserSignedIn) {
       // returns true, return cookie
       sendCookie(res, isUserSignedIn);
@@ -24,6 +23,8 @@ const loginUser = async (req, res) => {
 const sendCookie = (res, userData) => {
   const cookie = userData.cookie;
   const sessionToken = userData.sessionToken;
+  const cookieHeader = `userId=${cookie.uid}; Max-age=259200; HttpOnly; Secure`;
+  res.setHeader('Set-Cookie', cookieHeader)
   res.cookie("userId", cookie.uid, {
             maxAge: 259200000,
             httpOnly: true,
