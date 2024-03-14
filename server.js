@@ -24,7 +24,9 @@ mongoose.connection.once("connected", () => {
     const hostname = req.get("host");
     const protocol = req.protocol;
     console.clear();
+    console.log("\n\n")
     console.log(`Server is running on ${protocol}://${hostname}`);
+    console.log("\n\n\n\n\n\n\n\n\n\n\n")
   });
 });
 
