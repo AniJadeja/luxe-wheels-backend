@@ -1,8 +1,12 @@
 const { getUserFromId } = require("../../../../database");
 const { UserDataModel } = require("../../models")
+const { findSessionId } = require("../../../../database/methods/sessionToUid");
 
 const getUserProfile = async (req, res) => {
-  const { userId } = req.cookies;
+  const { sessionToken } = req.body;
+  const session = await findSessionId(sessionToken);
+  if (!session) return 404;
+  const userId = session ? session[0].uid : null;
   const user = await getUserFromId(userId);
   return user ? new UserDataModel(user) : 404;
 };
