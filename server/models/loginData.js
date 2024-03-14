@@ -14,11 +14,8 @@ class LoginDataModel {
     if(!browsers.includes(data.browserName.toLowerCase())) {
       errors.browserName = "Invalid Browser Name";
     }
-    // browserversion must follow this pattern 00.00.00.00
-    // or 0.0.0.0
-    // or any single digit number in the version number followed by a dot
-    
-    if(!data.browserVersion.match(/^\d+(\.\d+){2,3}$/)) {
+
+    if(!data.browserVersion) {
       errors.browserVersion = "Invalid Browser Version";
     }
     if(!data.osName) {
