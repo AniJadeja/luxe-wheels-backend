@@ -72,7 +72,7 @@ const signInUser = async (user, systemData) => {
     );
 
     console.log(
-      "databaseController => signInUser => currentSession : ",
+      "databaseController => signInUser => latestSession : ",
       currentBrowserSession
     );
     if (currentBrowserSession) {
