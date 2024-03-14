@@ -1,7 +1,7 @@
 const verifyUserInput = (req,res,next) => {
 console.log("getUserProfileMiddleware => verifying");
-    const { sessionToken } = req.body;
-    if (sessionToken)
+    const { userId } = req.cookies;
+    if (userId)
     {
         console.log("getUserProfileMiddleware => verified");
         next();
@@ -11,7 +11,7 @@ console.log("getUserProfileMiddleware => verifying");
         console.log("getUserProfileMiddleware => not verified");
         res.status(400).json({
             message:
-            "Please provide a sessionToken"
+            "Cookie not found"
         });
     }
 }
