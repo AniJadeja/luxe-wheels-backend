@@ -22,10 +22,12 @@ const getUserUid = async (email) => {
 };
 
 const getSessionOfCurrentBrowser = async (data) => {
-  if (!data) return null;
+  if (!data) {
+    return null};
   data.email = data.email.toLowerCase();
   const sessions = await retrieveAllSessions(data.email);
-  if (!sessions) return null;
+  if (!sessions) {
+    return null};
   let currentSession = null;
 
   sessions.forEach((session) => {
@@ -53,7 +55,7 @@ const signInUser = async (user, systemData) => {
   const dbUser = await verifyUserEmail(user.email);
   // if user is present
   // check if password matches
-  dbUser ? console.log("signInUser => dbUser : ", dbUser) : console.log("No user found");
+  //dbUser ? console.log("signInUser => dbUser : ", dbUser) : console.log("No user found");
   if (!dbUser) return false;
   if (await bcrypt.compare(user.password, dbUser.password)) {
     const sessionFetchData = {
@@ -63,7 +65,8 @@ const signInUser = async (user, systemData) => {
       osName: systemData.osName,
       screenRes: systemData.screenRes,
     };
-    console.log("Password matches")
+
+    console.log("fetching the current session of the browser")
     const currentBrowserSession = await getSessionOfCurrentBrowser(
       sessionFetchData
     );
@@ -91,9 +94,10 @@ const signInUser = async (user, systemData) => {
         return null;
       }
     } else if (!currentBrowserSession) {
-      console.log("signInUser => session does not exist");
+
       user.email = user.email.toLowerCase();
       const sessions = await retrieveAllSessions(user.email);
+     // console.log(`dabaseController.js => signInUser => !currentBrowserSessoion => sessions : $sessions`)
       if (sessions && sessions.length > 0){
         console.log("signInUser => sessions : ",sessions);
         const expiration = new Date(
@@ -109,7 +113,7 @@ const signInUser = async (user, systemData) => {
         : null;
       }
       else{
-        console.log("signInUser => no sessions length found");
+        //console.log("signInUser => no sessions length found");
       }
       
     }

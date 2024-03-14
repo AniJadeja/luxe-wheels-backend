@@ -14,4 +14,4 @@ const sessionToUidSchema = new Schema({
       },
 });
 
-module.exports = mongoose.model("SessionToUid", sessionSchema);
+module.exports = mongoose.model("SessionToUid", sessionToUidSchema);
