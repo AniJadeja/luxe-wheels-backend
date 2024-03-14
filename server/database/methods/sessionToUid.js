@@ -6,8 +6,8 @@ const getAllSessionIds = (uid) =>{
 }
 
 
-const findSessionId = (sessionToken) => {
-    const session = sessionsToUid.findOne({sessionToken : sessionToken});
+const findSessionId = async (sessionToken) => {
+    const session = await sessionsToUid.find({ sessionToken: sessionToken }).exec();
     return session ? session : null;
 }
 
