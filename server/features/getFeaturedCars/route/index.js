@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const { upload, getAllCars, getQueriedCars } = require("../controllers");
-const { upload, getAllCars, getQueriedCars } = require("../controllers");
 const { verifyCarsInput } = require("../middlewares");
 
 const featuredCarsRouter = router.get('/', verifyCarsInput ,(req, res) => {
@@ -10,8 +9,7 @@ const featuredCarsRouter = router.get('/', verifyCarsInput ,(req, res) => {
   getAllCars(req, res);
   }
   else {
-    getQueriedCars(queryParam, res);
-    getQueriedCars(queryParam, res);
+    getQueriedCars(queryParam, res); 
     }
 });
 
