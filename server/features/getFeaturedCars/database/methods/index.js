@@ -61,10 +61,24 @@ const fetchQueriedCars = async (queryParam) => {
   }
 };
 
+const fetchCarById = async (id) => {
+  try {
+    let car = await AllCars.findById(id);
+    if (!car) throw new Error("Error getting car");
+    return car;
+  }
+  catch (error) {
+   // console.error("Error getting car:", error);
+    throw new Error("Error getting car");
+  }
+}
+
+
 module.exports = {
   // uploadCars,
   updateCars,
   fetchAllCars,
-  fetchQueriedCars
+  fetchQueriedCars,
   // uploadImage,
+  fetchCarById
 };
