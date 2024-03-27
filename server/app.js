@@ -1,7 +1,13 @@
-
 // Routers
 const { pingRouter, authRouter } = require("./routes");
-const { getUserData, getFeaturedCarsRouter, getUserBookings, generateReceiptRouter,createBookingsRouter  } = require("./features")
+const {
+  getUserData,
+  getFeaturedCarsRouter,
+  getUserBookings,
+  generateReceiptRouter,
+  createBookingsRouter,
+  paymentRouter
+} = require("./features");
 const {
   pingEndPoint,
   signUpEndPoint,
@@ -11,7 +17,8 @@ const {
   carsEP,
   userBookingsEndPoint,
   userReceiptsEndPoint,
-createBookingEndPoint
+  createBookingEndPoint,
+  paymentsEndPoint,
 } = require("./config/endpoints.js");
 
 const express = require("express");
@@ -24,6 +31,7 @@ dbConn();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+
 // Middleware
 app.use((req, res, next) => {
   console.log(`Request received for endpoint: ${req.originalUrl}`);
@@ -38,6 +46,6 @@ app.use(carsEP, getFeaturedCarsRouter);
 app.use(userBookingsEndPoint, getUserBookings);
 app.use(createBookingEndPoint, createBookingsRouter);
 app.use(userReceiptsEndPoint, generateReceiptRouter);
+app.use(paymentsEndPoint, paymentRouter);
 
 module.exports = { app };
-
