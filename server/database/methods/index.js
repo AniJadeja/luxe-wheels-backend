@@ -8,6 +8,8 @@ const {
   addNewSession,
 } = require("./session");
 
+const { findSessionId } = require("./sessionToUid");
+
 module.exports = {
   getUserFromEmail,
   createUser,
@@ -17,5 +19,6 @@ module.exports = {
   updateSession,
   deleteSession,
   addNewSession,
-  getUserFromId
+  getUserFromId,
+  findSessionId
 };
