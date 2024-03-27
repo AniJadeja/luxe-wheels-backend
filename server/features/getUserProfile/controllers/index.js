@@ -1,7 +1,6 @@
 const { getUserProfile } = require("../database");
 
 const getUserData = async (req, res) => {
-  console.log("getUserProfileController => getting user data for sessionToken: ", req.body.sessionToken);
   const user = await getUserProfile(req, res);
   user
     ? console.log("getUserProfileController => userData returned")
