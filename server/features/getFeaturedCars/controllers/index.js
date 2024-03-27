@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { uploadCars, fetchAllCars, updateCars, fetchQueriedCars } = require("../database/methods/index.js");
+const { uploadCars, fetchAllCars, updateCars, fetchQueriedCars, fetchCarById } = require("../database/methods/index.js");
 const { uploadImage } = require("../database/methods/firebaseStorage.js");
 const { getDownloadURL } = require("firebase-admin/storage");
 const generate3DigitRandomNumber = require("../../../utils/generate3DigitRandomNumber.js");
@@ -101,6 +101,7 @@ const upload = async (req, res) => {
         milage : milage,
         carCondition : carCondition,
         photo: uploadedImage,
+        isAvailable: true,
       };
       //console.log("car", car);
 
@@ -148,8 +149,25 @@ const getQueriedCars = async (queryParam, res) => {
   }
 };
 
+const getCarById = async (id, res) => {
+  try {
+    const car = await fetchCarById(id);
+    if (!car) {
+      console.error("Error getting car");
+      throw new Error("Error getting car");
+    }
+    if (res) res.status(200).json({message: "Car fetched successfully", isAvailable: car.isAvailable}); 
+    else return car;
+  } catch (error) {
+    console.error("Error getting car:", error);
+    res.status(500).send("Error getting car");
+    throw new Error("Error getting car");
+  }
+}
+
 module.exports = {
   upload,
   getAllCars,
   getQueriedCars,
+  getCarById,
 };

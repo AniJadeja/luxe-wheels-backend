@@ -9,6 +9,7 @@ const carSchema = new Schema({
     milage: String,
     carCondition: String,
     carType: String,
+    isAvailable: Boolean
 });
 
 module.exports = mongoose.model('AllCars', carSchema);
