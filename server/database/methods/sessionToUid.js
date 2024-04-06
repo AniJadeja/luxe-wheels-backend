@@ -7,9 +7,13 @@ const getAllSessionIds = (uid) =>{
 
 
 const findSessionId = async (sessionToken) => {
-    const session = await sessionsToUid.find({ sessionToken: sessionToken }).exec();
+    sessionToken = sessionToken.replace(/["]+/g, '');
+    console.log("findSessionId => sessionToken: ", sessionToken);
+    const session = await sessionsToUid.find({ "sessionToken": sessionToken }).exec();
+    console.log("findSessionId => session: ", session);
     return session ? session : null;
 }
+
 
 
 module.exports = { getAllSessionIds, findSessionId };
